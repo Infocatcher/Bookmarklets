@@ -1,5 +1,5 @@
 // (c) Infocatcher 2009, 2012
-// version 0.1.2 - 2012-06-15
+// version 0.1.3 - 2012-09-20
 
 // Add Style module:
 // (c) Infocatcher 2008-2009, 2011
@@ -11,6 +11,7 @@ var style = [
 	"%*%:root %*% {",
 	"	color: black !important; background: #e5e5e5 !important; border-color: #bbb !important;",
 	"	font: 500 100%/1.2 Verdana,Arial,Helvetica,sans-serif !important;",
+	"	text-shadow: none !important;",
 	"}",
 	"%*%:root %*%:link, %*%:root %*%:link * { color: #008 !important; }",
 	"%*%:root %*%:visited, %*%:root %*%:visited * { color: #77a !important; }",
