@@ -4,9 +4,25 @@
 
 (function() {
 var anchorClass = "__anchorsBookmarkletLink";
+var anchorBlockClass = "__anchorsBookmarkletBlock";
 var anchorLinkClass = "__anchorsBookmarkletLinkHref";
 var anchorCloseClass = "__anchorsBookmarkletClose";
 var styleId = "__anchorsBookmarkletStyle";
+
+function _localize(s) {
+	var _s = {
+		"Show over?": { ru: "Показывать поверх?" },
+		"Close":      { ru: "Закрыть" },
+		"Link:":      { ru: "Ссылка:" }
+	};
+	var lng = "en";
+	if(/[а-я]{3,}/i.test(new Date().toLocaleString()))
+		lng = "ru";
+	_localize = function(s) {
+		return _s[s] && _s[s][lng] || s;
+	};
+	return _localize(s);
+}
 
 var remove = anchorClass in window;
 if(remove) {
@@ -15,7 +31,7 @@ if(remove) {
 }
 else {
 	window[anchorClass] = clickHandler;
-	var showOver = confirm("Show over?");
+	var showOver = confirm(_localize("Show over?"));
 }
 
 function anchor() {
@@ -51,12 +67,12 @@ function anchor() {
 	});
 
 	var block = document.createElementNS("http://www.w3.org/1999/xhtml", "span");
+	block.className = anchorBlockClass;
 	style(block, {
 		position: showOver ? "absolute" : "relative",
 		top: 0,
 		left: 0,
 		background: "#ff9",
-		outline: "1px solid #fc6",
 		padding: "1px"
 	});
 
@@ -69,6 +85,7 @@ function anchor() {
 	var close = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
 	close.className = anchorCloseClass;
 	close.appendChild(document.createTextNode("x"));
+	close.title = _localize("Close");
 	style(close, {
 		color: "#900",
 		padding: "1px 1px 1px 2px"
@@ -93,9 +110,18 @@ function windowStyle(win, add) {
 	var s = d.createElementNS("http://www.w3.org/1999/xhtml", "style");
 	s.id = styleId;
 	s.type = "text/css";
+	var ph = (function() {
+		var rnd = Math.random().toFixed(16).substr(2);
+		var hack = "*|*";
+		for(var i = 0; i < 16; ++i)
+			hack += ":not(#__priorityHack__" + rnd + "__" + i + ")";
+		return hack;
+	})();
 	s.appendChild(d.createTextNode(
-		"." + anchorClass + " { z-index: 2147483646 !important; opacity: 0.8 !important; }\n" +
-		"." + anchorClass + ":hover { z-index: 2147483647 !important; opacity: 0.95 !important; }"
+		ph + "." + anchorClass + " { z-index: 2147483646 !important; opacity: 0.8 !important; }\n" +
+		ph + "." + anchorClass + ":hover { z-index: 2147483647 !important; opacity: 0.95 !important; }\n" +
+		ph + "." + anchorBlockClass + " { outline: 1px solid #fc6 !important; }\n" +
+		ph + "." + anchorBlockClass + ":hover { outline: 1px solid #fa6 !important; }"
 	));
 	var h = d.getElementsByTagName("head")[0] || d.documentElement;
 	h.appendChild(s);
@@ -105,6 +131,7 @@ function createAnchor(h, t) {
 	var a = s.firstChild.firstChild;
 	a.href = h;
 	a.appendChild(document.createTextNode(t));
+	a.title = t;
 	return s;
 }
 function clickHandler(e) {
@@ -113,7 +140,7 @@ function clickHandler(e) {
 	if(trg.className == anchorLinkClass) {
 		e.preventDefault();
 		e.stopPropagation();
-		prompt("Link:", trg.href);
+		prompt(_localize("Link:"), trg.href);
 	}
 	else if(trg.className == anchorCloseClass) {
 		e.preventDefault();
@@ -123,7 +150,8 @@ function clickHandler(e) {
 }
 function addAnchors(win) {
 	var _baseURI = win.location.href.replace(/#.*$/, "");
-	var elts = win.document.getElementsByTagName("*");
+	var root = win.document.body || win.document;
+	var elts = root.getElementsByTagName("*");
 	for(var i = elts.length - 1; i >= 0; --i) {
 		var elt = elts[i];
 		var anch = elt.id || elt.name;
@@ -153,7 +181,7 @@ function rmv(node) {
 }
 function toggleAnchors(win) {
 	beginBatch(win);
-	try { windowStyle(win, !remove) }
+	try { windowStyle(win, !remove); }
 	catch(e) {}
 	if(remove) {
 		win.removeEventListener("click", oldClickHandler, true);
