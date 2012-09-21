@@ -16,7 +16,9 @@ function _localize(s) {
 		"Link:":      { ru: "Ссылка:" }
 	};
 	var lng = "en";
-	if(/[а-я]{3,}/i.test(new Date().toLocaleString()))
+	if(navigator.language && /^\w+/.test(navigator.language))
+		lng = RegExp.lastMatch;
+	else if(/\s[а-я]{3,}\s/i.test(new Date().toLocaleString()))
 		lng = "ru";
 	_localize = function(s) {
 		return _s[s] && _s[s][lng] || s;
