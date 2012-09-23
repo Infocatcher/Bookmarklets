@@ -137,6 +137,8 @@ function createAnchor(h, t) {
 	return s;
 }
 function clickHandler(e) {
+	if(e.button != 0)
+		return;
 	var trg = e.target;
 	var c = trg.className;
 	if(trg.className == anchorLinkClass) {
