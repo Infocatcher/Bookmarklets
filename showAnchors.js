@@ -195,7 +195,7 @@ function removeAnchors(win) {
 			rmv(anchs[i]);
 		return;
 	}
-	var anchs = doc.getElementsByTagName("a");
+	var anchs = doc.getElementsByTagName("span");
 	for(var i = anchs.length - 1; i >= 0; --i) {
 		anch = anchs[i];
 		if(anch.className == anchorClass)
