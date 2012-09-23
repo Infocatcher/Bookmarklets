@@ -1,6 +1,10 @@
-﻿// (c) Infocatcher 2009, 2011-2012
-// version 0.2.0pre2 - 2012-09-24
+﻿// https://github.com/Infocatcher/Bookmarklets/blob/master/showAnchors.js
+
+// Show Anchors bookmarklet
 // Style and idea based on Web Developer Firefox extension
+
+// (c) Infocatcher 2009, 2011-2012
+// version 0.2.0pre2 - 2012-09-24
 
 (function() {
 var anchorClass = "__anchorsBookmarkletLink";
