@@ -1,5 +1,5 @@
 ﻿// (c) Infocatcher 2009, 2011-2012
-// version 0.2.0pre - 2012-09-21
+// version 0.2.0pre2 - 2012-09-24
 // Style and idea based on Web Developer Firefox extension
 
 (function() {
@@ -155,14 +155,36 @@ function clickHandler(e) {
 function addAnchors(win) {
 	var _baseURI = win.location.href.replace(/#.*$/, "");
 	var root = win.document.body || win.document;
-	var elts = root.getElementsByTagName("*");
-	for(var i = elts.length - 1; i >= 0; --i) {
+	var elts = Array.prototype.slice.call(root.getElementsByTagName("*"));
+	for(var i = 0, l = elts.length; i < l; ++i) {
 		var elt = elts[i];
 		var anch = elt.id || elt.name;
 		if(!anch)
 			continue;
 		anch = "#" + anch;
-		elt.parentNode.insertBefore(createAnchor(_baseURI + anch, anch), elt);
+		var s = createAnchor(_baseURI + anch, anch);
+		var top = 0;
+		var left = 0;
+		if(showOver && elt.getBoundingClientRect && /^t([drh]|head|body|foot)$/i.test(elt.nodeName)) {
+			for(var table = elt.parentNode; table; table = table.parentNode) {
+				if(table.nodeName.toLowerCase() == "table") {
+					var rc1 = elt.getBoundingClientRect();
+					var rc2 = table.getBoundingClientRect();
+					top = rc1.top - rc2.top;
+					left = rc1.left - rc2.left;
+					elt = table;
+					break;
+				}
+			}
+		}
+		elt.parentNode.insertBefore(s, elt);
+		if(top || left) {
+			var b = s.firstChild;
+			top += b.getBoundingClientRect().height;
+			var st = b.style;
+			st.setProperty("top",  top  + "px", "important");
+			st.setProperty("left", left + "px", "important");
+		}
 	}
 }
 function removeAnchors(win) {
