@@ -48,7 +48,6 @@ function anchor() {
 		font:          "11px/15px Verdana,Arial,Helvetica,sans-serif",
 		"text-decoration": "none",
 		border:        "none",
-		border:        "none",
 		height:        "auto",
 		margin:        0,
 		padding:       0,
