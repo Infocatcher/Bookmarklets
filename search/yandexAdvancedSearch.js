@@ -54,7 +54,7 @@ var loc = location.href;
 var host = "";
 try { host = location.hostname; }
 catch(e) {}
-if(loc == "about:blank")
+if(loc == "about:blank" || loc == "about:newtab")
 	location.href = "http://yandex.ru/advanced.html";
 else if(!host || /^(www\d*\.)?ya(ndex)?\.ru$/.test(host) || /^(about|chrome|resource):/.test(loc))
 	window.open("http://yandex.ru/advanced.html");
