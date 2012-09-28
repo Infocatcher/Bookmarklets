@@ -160,36 +160,44 @@ function clickHandler(e) {
 function addAnchors(win) {
 	var _baseURI = win.location.href.replace(/#.*$/, "");
 	var root = win.document.body || win.document;
-	var elts = Array.prototype.slice.call(root.getElementsByTagName("*"));
+	var elts = root.getElementsByTagName("*");
 	for(var i = 0, l = elts.length; i < l; ++i) {
 		var elt = elts[i];
 		var anch = elt.id || elt.name;
 		if(!anch)
 			continue;
 		anch = "#" + anch;
-		var s = createAnchor(_baseURI + anch, anch);
-		var top = 0;
-		var left = 0;
-		if(showOver && elt.getBoundingClientRect && /^t([drh]|head|body|foot)$/i.test(elt.nodeName)) {
-			for(var table = elt.parentNode; table; table = table.parentNode) {
-				if(table.nodeName.toLowerCase() == "table") {
-					var rc1 = elt.getBoundingClientRect();
-					var rc2 = table.getBoundingClientRect();
-					top = rc1.top - rc2.top;
-					left = rc1.left - rc2.left;
-					elt = table;
-					break;
-				}
+		addAnchorDelayed(elt, anch, _baseURI)
+	}
+}
+function addAnchorDelayed(elt, anch, _baseURI) {
+	setTimeout(function() {
+		addAnchor(elt, anch, _baseURI);
+	}, 0);
+}
+function addAnchor(elt, anch, _baseURI) {
+	var s = createAnchor(_baseURI + anch, anch);
+	var top = 0;
+	var left = 0;
+	if(showOver && elt.getBoundingClientRect && /^t([drh]|head|body|foot)$/i.test(elt.nodeName)) {
+		for(var table = elt.parentNode; table; table = table.parentNode) {
+			if(table.nodeName.toLowerCase() == "table") {
+				var rc1 = elt.getBoundingClientRect();
+				var rc2 = table.getBoundingClientRect();
+				top = rc1.top - rc2.top;
+				left = rc1.left - rc2.left;
+				elt = table;
+				break;
 			}
 		}
-		elt.parentNode.insertBefore(s, elt);
-		if(top || left) {
-			var b = s.firstChild;
-			top += b.getBoundingClientRect().height;
-			var st = b.style;
-			st.setProperty("top",  top  + "px", "important");
-			st.setProperty("left", left + "px", "important");
-		}
+	}
+	elt.parentNode.insertBefore(s, elt);
+	if(top || left) {
+		var b = s.firstChild;
+		top += b.getBoundingClientRect().height;
+		var st = b.style;
+		st.setProperty("top",  top  + "px", "important");
+		st.setProperty("left", left + "px", "important");
 	}
 }
 function removeAnchors(win) {
@@ -197,32 +205,42 @@ function removeAnchors(win) {
 	if("getElementsByClassName" in doc) {
 		var anchs = doc.getElementsByClassName(anchorClass);
 		for(var i = anchs.length - 1; i >= 0; --i)
-			rmv(anchs[i]);
+			rmvDelayed(anchs[i]);
 		return;
 	}
 	var anchs = doc.getElementsByTagName("span");
 	for(var i = anchs.length - 1; i >= 0; --i) {
 		anch = anchs[i];
 		if(anch.className == anchorClass)
-			rmv(anch);
+			rmvDelayed(anch);
 	}
+}
+function rmvDelayed(node) {
+	setTimeout(function() {
+		rmv(node);
+	}, 0);
 }
 function rmv(node) {
 	node.parentNode.removeChild(node);
 }
 function toggleAnchors(win) {
 	beginBatch(win);
-	try { windowStyle(win, !remove); }
-	catch(e) {}
 	if(remove) {
 		win.removeEventListener("click", oldClickHandler, true);
 		removeAnchors(win);
+		setTimeout(function() {
+			windowStyle(win, false);
+		}, 0);
 	}
 	else {
+		try { windowStyle(win, true); }
+		catch(e) {}
 		win.addEventListener("click", clickHandler, true);
 		addAnchors(win);
 	}
-	endBatch(win);
+	setTimeout(function() {
+		endBatch(win);
+	}, 0);
 }
 function parseWin(win) {
 	try { toggleAnchors(win); }
