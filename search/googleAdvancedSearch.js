@@ -1,5 +1,5 @@
-﻿// (c) Infocatcher 2009, 2011
-// version 0.2.2.1 - 2011-07-19
+﻿// (c) Infocatcher 2009, 2011-2012
+// version 0.2.3 - 2012-09-28
 
 // getSel module:
 // (c) Infocatcher 2009, 2011
