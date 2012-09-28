@@ -55,15 +55,15 @@ var host = "";
 try { host = location.hostname; }
 catch(e) {}
 if(loc == "about:blank" || loc == "about:newtab")
-	location.href = "http://www.google.ru/advanced_search";
+	location.href = "https://www.google.ru/advanced_search";
 else if(!host || /^(www\d*\.)?google\.[a-z]{2,10}$/.test(host) || /^(about|chrome|resource):/.test(loc))
-	window.open("http://www.google.ru/advanced_search");
+	window.open("https://www.google.ru/advanced_search");
 else {
 	var sel = getSel(true).join(" ");
 	var q = prompt("Google: поиск по сайту \"" + host + "\"", sel) || "";
 	q = q.replace(/^\s+|\s+$/, "");
 	if(q)
-		window.open("http://www.google.ru/search?as_q=" + encodeURIComponent(q)
+		window.open("https://www.google.ru/search?as_q=" + encodeURIComponent(q)
 			+ "&as_sitesearch=" + encodeURIComponent(host));
 }
 })();

@@ -55,16 +55,16 @@ var host = "";
 try { host = location.hostname; }
 catch(e) {}
 if(loc == "about:blank" || loc == "about:newtab")
-	location.href = "http://yandex.ru/advanced.html";
+	location.href = "https://yandex.ru/advanced.html";
 else if(!host || /^(www\d*\.)?ya(ndex)?\.ru$/.test(host) || /^(about|chrome|resource):/.test(loc))
-	window.open("http://yandex.ru/advanced.html");
+	window.open("https://yandex.ru/advanced.html");
 else {
 	var sel = getSel(true).join(" ");
 	var q = prompt("Яндекс: поиск по сайту \"" + host + "\"", sel) || "";
 	q = q.replace(/^\s+|\s+$/, "");
 	if(q)
 		window.open(
-			"http://yandex.ru/yandsearch?text=" + encodeURIComponent(q)
+			"https://yandex.ru/yandsearch?text=" + encodeURIComponent(q)
 			+ "&site=" + encodeURIComponent(host)
 		);
 }
