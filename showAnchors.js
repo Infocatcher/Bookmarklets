@@ -125,6 +125,7 @@ function windowStyle(win, add) {
 	})();
 	s.appendChild(d.createTextNode(
 		ph + "." + anchorClass + " { z-index: 2147483646 !important; opacity: 0.8 !important; }\n" +
+		ph + "." + anchorClass + " a:focus { outline: 1px dotted !important; }\n" +
 		ph + "." + anchorClass + ":hover { z-index: 2147483647 !important; opacity: 0.95 !important; }\n" +
 		ph + "." + anchorBlockClass + " { outline: 1px solid #fc6 !important; }\n" +
 		ph + "." + anchorBlockClass + ":hover { outline: 1px solid #fa6 !important; }"
