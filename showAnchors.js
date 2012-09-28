@@ -180,7 +180,8 @@ function addAnchor(elt, anch, _baseURI) {
 	var s = createAnchor(_baseURI + anch, anch);
 	var top = 0;
 	var left = 0;
-	if(showOver && elt.getBoundingClientRect && /^t([drh]|head|body|foot)$/i.test(elt.nodeName)) {
+	var hasRect = "getBoundingClientRect" in elt;
+	if(hasRect && showOver && /^t([drh]|head|body|foot)$/i.test(elt.nodeName)) {
 		for(var table = elt.parentNode; table; table = table.parentNode) {
 			if(table.nodeName.toLowerCase() == "table") {
 				var rc1 = elt.getBoundingClientRect();
@@ -193,9 +194,20 @@ function addAnchor(elt, anch, _baseURI) {
 		}
 	}
 	elt.parentNode.insertBefore(s, elt);
+	if(!hasRect)
+		return;
+	var b = s.firstChild;
+	var rc = b.getBoundingClientRect();
+	if(!top && !left) {
+		if(rc.top < 0)
+			top -= rc.top;
+		if(rc.left < 0)
+			left -= rc.left;
+	}
+	else {
+		top += rc.height;
+	}
 	if(top || left) {
-		var b = s.firstChild;
-		top += b.getBoundingClientRect().height;
 		var st = b.style;
 		st.setProperty("top",  top  + "px", "important");
 		st.setProperty("left", left + "px", "important");
