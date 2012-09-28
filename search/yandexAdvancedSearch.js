@@ -1,4 +1,4 @@
-// (c) Infocatcher 2009, 2011
+﻿// (c) Infocatcher 2009, 2011
 // version 0.2.2.1 - 2011-07-19
 
 // getSel module:
@@ -6,6 +6,24 @@
 // version 0.2.1 - 2011-07-19
 
 (function() {
+
+function _localize(s) {
+	// Seems like https worts only for yandex.ru
+	// Test: https://yandex.com/yandsearch?text=test
+	var _s = {
+		"yandex.ru":                       { ru: "yandex.ru" },
+		"Yandex: search on the site “%S”": { ru: "Яндекс: поиск по сайту «%S»" }
+	};
+	var lng = "en";
+	if(navigator.language && /^\w+/.test(navigator.language))
+		lng = RegExp.lastMatch;
+	else if(/\s[а-я]{3,}\s/i.test(new Date().toLocaleString()))
+		lng = "ru";
+	_localize = function(s) {
+		return _s[s] && _s[s][lng] || s;
+	};
+	return _localize(s);
+}
 
 function getSelWnd(trim, win, sels) {
 	if(!win)  win = window;
@@ -54,16 +72,22 @@ var loc = location.href;
 var host = "";
 try { host = location.hostname; }
 catch(e) {}
+var domain = _localize("yandex.ru");
 if(loc == "about:blank" || loc == "about:newtab")
-	location.href = "https://yandex.ru/advanced.html";
+	location.href = "https://" + domain + "/advanced.html";
 else if(!host || /^(www\d*\.)?ya(ndex)?\.ru$/.test(host) || /^(about|chrome|resource):/.test(loc))
-	window.open("https://yandex.ru/advanced.html");
+	window.open("https://" + domain + "/advanced.html");
 else {
 	var sel = getSel(true).join(" ");
-	var q = prompt("Яндекс: поиск по сайту \"" + host + "\"", sel + " site:" + host) || "";
+	var q = prompt(
+		_localize("Yandex: search on the site “%S”").replace("%S", host),
+		sel + " site:" + host
+	) || "";
 	q = q.replace(/^\s+|\s+$/, "");
+	if(!q)
+		return;
 	if(!/ +site: *\S+$/.test(q))
 		q += " site:" + host;
-	q && window.open("https://yandex.ru/yandsearch?text=" + encodeURIComponent(q));
+	q && window.open("https://" + domain + "/yandsearch?text=" + encodeURIComponent(q));
 }
 })();
