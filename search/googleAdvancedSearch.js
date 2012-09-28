@@ -60,10 +60,10 @@ else if(!host || /^(www\d*\.)?google\.[a-z]{2,10}$/.test(host) || /^(about|chrom
 	window.open("https://www.google.ru/advanced_search");
 else {
 	var sel = getSel(true).join(" ");
-	var q = prompt("Google: поиск по сайту \"" + host + "\"", sel) || "";
+	var q = prompt("Google: поиск по сайту \"" + host + "\"", sel + " site:" + host) || "";
 	q = q.replace(/^\s+|\s+$/, "");
-	if(q)
-		window.open("https://www.google.ru/search?as_q=" + encodeURIComponent(q)
-			+ "&as_sitesearch=" + encodeURIComponent(host));
+	if(!/ +site: *\S+$/.test(q))
+		q += " site:" + host;
+	q && window.open("https://www.google.ru/search?q=" + encodeURIComponent(q));
 }
 })();

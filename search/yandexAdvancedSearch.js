@@ -60,12 +60,10 @@ else if(!host || /^(www\d*\.)?ya(ndex)?\.ru$/.test(host) || /^(about|chrome|reso
 	window.open("https://yandex.ru/advanced.html");
 else {
 	var sel = getSel(true).join(" ");
-	var q = prompt("Яндекс: поиск по сайту \"" + host + "\"", sel) || "";
+	var q = prompt("Яндекс: поиск по сайту \"" + host + "\"", sel + " site:" + host) || "";
 	q = q.replace(/^\s+|\s+$/, "");
-	if(q)
-		window.open(
-			"https://yandex.ru/yandsearch?text=" + encodeURIComponent(q)
-			+ "&site=" + encodeURIComponent(host)
-		);
+	if(!/ +site: *\S+$/.test(q))
+		q += " site:" + host;
+	q && window.open("https://yandex.ru/yandsearch?text=" + encodeURIComponent(q));
 }
 })();
