@@ -51,6 +51,7 @@ function anchor() {
 		height:        "auto",
 		margin:        0,
 		padding:       0,
+		"white-space": "pre",
 		"text-shadow": "none",
 		"min-height":  0,
 		"max-height":  "none",
