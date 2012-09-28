@@ -7,11 +7,12 @@
 // version 0.2.0pre3 - 2012-09-28
 
 (function() {
-var anchorClass = "__anchorsBookmarkletLink";
-var anchorBlockClass = "__anchorsBookmarkletBlock";
-var anchorLinkClass = "__anchorsBookmarkletLinkHref";
-var anchorCloseClass = "__anchorsBookmarkletClose";
-var styleId = "__anchorsBookmarkletStyle";
+var ns = "__anchorsBookmarklet";
+var anchorClass      = ns + "Link"; // Don't change this for backward compatibility
+var anchorBlockClass = ns + "Block";
+var anchorLinkClass  = ns + "LinkHref";
+var anchorCloseClass = ns + "Close";
+var styleId          = ns + "Style";
 
 function _localize(s) {
 	var _s = {
