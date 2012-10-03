@@ -168,7 +168,7 @@ function addAnchors(win) {
 		if(!anch)
 			continue;
 		anch = "#" + anch;
-		addAnchorDelayed(elt, anch, _baseURI)
+		addAnchorDelayed(elt, anch, _baseURI);
 	}
 }
 function addAnchorDelayed(elt, anch, _baseURI) {
