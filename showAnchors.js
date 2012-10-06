@@ -207,6 +207,7 @@ function addAnchor(elt, anch, _baseURI) {
 	var b = s.firstChild;
 	var rc = b.getBoundingClientRect();
 	if(!top && !left) {
+		rc = getAbsRect(b, rc);
 		if(rc.top < 0)
 			top -= rc.top;
 		if(rc.left < 0)
@@ -220,6 +221,26 @@ function addAnchor(elt, anch, _baseURI) {
 		st.setProperty("top",  top  + "px", "important");
 		st.setProperty("left", left + "px", "important");
 	}
+}
+function getAbsRect(node, rc) {
+	// Based on code from http://javascript.ru/ui/offset
+	if(!rc)
+		rc = node.getBoundingClientRect();
+	var document = node.ownerDocument;
+	var window = document.defaultView;
+
+	var b = document.body;
+	var de = document.documentElement;
+	var scrollTop  = window.pageYOffset || de.scrollTop  || b.scrollTop;
+	var scrollLeft = window.pageXOffset || de.scrollLeft || b.scrollLeft;
+	var clientTop  = de.clientTop  || b.clientTop  || 0;
+	var clientLeft = de.clientLeft || b.clientLeft || 0;
+	var top  = rc.top  + scrollTop  - clientTop;
+	var left = rc.left + scrollLeft - clientLeft;
+	return {
+		top:  Math.round(top),
+		left: Math.round(left)
+	};
 }
 function removeAnchors(win) {
 	var doc = win.document;
