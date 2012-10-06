@@ -4,7 +4,7 @@
 // Style and idea based on Web Developer Firefox extension
 
 // (c) Infocatcher 2009, 2011-2012
-// version 0.2.0pre3 - 2012-09-28
+// version 0.2.0pre4 - 2012-10-06
 
 (function() {
 var ns = "__anchorsBookmarklet";
@@ -39,6 +39,12 @@ if(remove) {
 else {
 	window[anchorClass] = clickHandler;
 	var showOver = confirm(_localize("Show over?"));
+}
+// http://forums.informaction.com/viewtopic.php?f=10&t=10266&p=43618#p43618
+var isNoScript = String(setTimeout).indexOf("new Function") != -1;
+if(isNoScript) {
+	addAnchorDelayed = addAnchor;
+	rmvDelayed = rmv;
 }
 
 function anchor() {
@@ -162,6 +168,8 @@ function addAnchors(win) {
 	var _baseURI = win.location.href.replace(/#.*$/, "");
 	var root = win.document.body || win.document;
 	var elts = root.getElementsByTagName("*");
+	if(isNoScript)
+		elts = Array.slice(elts);
 	for(var i = 0, l = elts.length; i < l; ++i) {
 		var elt = elts[i];
 		var anch = elt.id || elt.name;
@@ -240,8 +248,8 @@ function toggleAnchors(win) {
 	beginBatch(win);
 	if(remove) {
 		win.removeEventListener("click", oldClickHandler, true);
-		removeAnchors(win);
 		setTimeout(function() {
+			removeAnchors(win);
 			windowStyle(win, false);
 		}, 0);
 	}
@@ -249,7 +257,9 @@ function toggleAnchors(win) {
 		try { windowStyle(win, true); }
 		catch(e) {}
 		win.addEventListener("click", clickHandler, true);
-		addAnchors(win);
+		setTimeout(function() {
+			addAnchors(win);
+		}, 0);
 	}
 	setTimeout(function() {
 		endBatch(win);
