@@ -190,7 +190,7 @@ function addAnchors(win) {
 	var root = win.document.body || win.document;
 	var elts = root.getElementsByTagName("*");
 	if(isSync)
-		elts = Array.slice(elts);
+		elts = Array.prototype.slice.call(elts);
 	for(var i = 0, l = elts.length; i < l; ++i) {
 		var elt = elts[i];
 		var anch = elt.id || elt.name;
