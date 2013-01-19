@@ -1,6 +1,5 @@
 (function() {
 function getFavicon() {
-	var favicon = "";
 	var relRegExp = /(^|\s)icon(\s|$)/i;
 	var lnks = document.getElementsByTagName("link"), lnk;
 	for(var i = 0, len = lnks.length; i < len; i++) {
