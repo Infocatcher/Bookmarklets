@@ -3,8 +3,8 @@
 // Show Anchors bookmarklet
 // Style and idea based on Web Developer Firefox extension
 
-// (c) Infocatcher 2009, 2011-2012
-// version 0.2.0pre4 - 2012-10-06
+// (c) Infocatcher 2009, 2011-2013
+// version 0.2.0pre5 - 2013-01-20
 
 (function() {
 var ns = "__anchorsBookmarklet";
