@@ -40,11 +40,32 @@ else {
 	window[anchorClass] = clickHandler;
 	var showOver = confirm(_localize("Show over?"));
 }
+
 // http://forums.informaction.com/viewtopic.php?f=10&t=10266&p=43618#p43618
+var setTimeout = window.setTimeout;
 var isNoScript = String(setTimeout).indexOf("new Function") != -1;
+var isSync = false;
 if(isNoScript) {
-	addAnchorDelayed = addAnchor;
-	rmvDelayed = rmv;
+	if("postMessage" in window) {
+		setTimeout = function fakeTimeout(callback) {
+			var key = "anchorsBookmarkletFakeTimeout#" + Math.random().toFixed(16).substr(2);
+			window.addEventListener("message", function onMessage(e) {
+				if(e.data !== key)
+					return;
+				var origin = e.origin;
+				if(!origin || location.href.substr(0, origin.length) !== origin)
+					return;
+				window.removeEventListener("message", onMessage, false);
+				callback();
+			}, false);
+			window.postMessage(key, location.href);
+		}
+	}
+	else {
+		isSync = true;
+		addAnchorDelayed = addAnchor;
+		rmvDelayed = rmv;
+	}
 }
 
 function anchor() {
@@ -168,7 +189,7 @@ function addAnchors(win) {
 	var _baseURI = win.location.href.replace(/#.*$/, "");
 	var root = win.document.body || win.document;
 	var elts = root.getElementsByTagName("*");
-	if(isNoScript)
+	if(isSync)
 		elts = Array.slice(elts);
 	for(var i = 0, l = elts.length; i < l; ++i) {
 		var elt = elts[i];
