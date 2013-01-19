@@ -9,7 +9,7 @@ function getFavicon() {
 	}
 	var m = location.href.match(/[\w-]+:\/*[^\/]+/);
 	if(!m)
-		return alert("Error...");
+		return alert("Error: Can't parse page URL");
 	return m[0] + "/favicon.ico";
 }
 var fav = getFavicon();
