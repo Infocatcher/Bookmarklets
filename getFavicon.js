@@ -1,9 +1,9 @@
 (function() {
 function getFavicon() {
 	var relRegExp = /(^|\s)icon(\s|$)/i;
-	var lnks = document.getElementsByTagName("link"), lnk;
-	for(var i = 0, len = lnks.length; i < len; i++) {
-		lnk = lnks[i];
+	var lnks = document.getElementsByTagNameNS("http://www.w3.org/1999/xhtml", "link");
+	for(var i = 0, len = lnks.length; i < len; ++i) {
+		var lnk = lnks[i];
 		if(relRegExp.test(lnk.rel) && lnk.href)
 			return lnk.href;
 	}
