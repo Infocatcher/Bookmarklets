@@ -7,10 +7,13 @@ function toggleEditable(win) {
 }
 function parseWin(win) {
 	try { toggleEditable(win); }
-	catch(e) {}
+	catch(e) { err(e); }
 	for(var i = 0, len = win.frames.length; i < len; ++i)
 		try { parseWin(win.frames[i]); }
-		catch(e) {}
+		catch(e) { err(e); }
+}
+function err(e) {
+	setTimeout(function() { throw e; }, 0);
 }
 var ce = String(getBody(document).contentEditable != "true");
 parseWin(window);
