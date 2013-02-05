@@ -2,11 +2,29 @@
 
 // Show Anchors bookmarklet
 // Style and idea based on Web Developer Firefox extension
+// Replace "var showOver = confirm(_localize("Show over?"));"
+// with "var showOver = true;" to suppress prompt.
+// Also you can use Custom Buttons https://addons.mozilla.org/addon/custom-buttons/
+// to launch the code (place it into "code" section)
 
 // (c) Infocatcher 2009, 2011-2013
-// version 0.2.0pre5 - 2013-01-20
+// version 0.2.0pre6 - 2013-02-05
 
 (function() {
+var window = top;
+var document = top.document;
+if(window.content && content != window) try { // Custom Buttons extension?
+	if(
+		content instanceof Components.interfaces.nsIDOMWindow
+		&& !(content instanceof Components.interfaces.nsIDOMChromeWindow)
+	) {
+		window = content.wrappedJSObject || content; // Only for better compatibility with bookmarklet
+		document = window.document;
+	}
+}
+catch(e) {
+}
+
 var ns = "__anchorsBookmarklet";
 var anchorClass      = ns + "Link"; // Don't change this for backward compatibility
 var anchorBlockClass = ns + "Block";
