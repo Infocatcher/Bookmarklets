@@ -16,6 +16,9 @@ body { margin: 0; padding: 0.5em; font: 13px Verdana, Arial, Helvetica, sans-ser
 #code {
 	line-height: 1.4em;
 	height: 14em;
+	resize: vertical;
+	white-space: pre;
+	overflow: auto;
 }
 button { margin-top: 0.3em; margin-bottom: 0.3em; font: 12px Verdana, Arial, Helvetica, sans-serif; }
 #source { position: absolute; bottom: 0.2em; right: 0.2em; opacity: 0.6; }
@@ -130,7 +133,7 @@ function clearFields() {
 }
 </script>
 <body>
-	<textarea id="code" placeholder="// Some stript to make bookmerklet from it"
+	<textarea id="code" wrap="off" placeholder="// Some stript to make bookmerklet from it"
 		onkeydown="if(event.keyCode == 13 && event.ctrlKey) scriptToBookmarklet();"></textarea>
 	<button onclick="scriptToBookmarklet();" title="Ctrl+Enter in code area">Make bookmarklet</button>
 	<button onclick="clearFields();">Clear</button>
