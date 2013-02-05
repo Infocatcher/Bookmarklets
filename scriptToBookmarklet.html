@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<title>Script to bookmarklet converter</title>
+<meta charset="utf-8" />
+<meta name="dcterms.rightsHolder" content="Infocatcher" />
+<meta name="dcterms.dateCopyrighted" content="2013" />
+<style type="text/css">
+html { margin: 0; padding: 0; }
+body { margin: 0; padding: 0.5em; font: 13px Verdana, Arial, Helvetica, sans-serif; }
+#code, #out {
+	font: 13px "Courier New", monospace;
+	width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+#code {
+	line-height: 1.4em;
+	height: 14em;
+}
+button { margin-top: 0.3em; margin-bottom: 0.3em; font: 12px Verdana, Arial, Helvetica, sans-serif; }
+#source { position: absolute; bottom: 0.2em; right: 0.2em; opacity: 0.6; }
+#source:hover { opacity: 1; }
+</style>
+<script type="text/javascript">
+// Based on https://github.com/Infocatcher/AkelPad_scripts/blob/master/scriptToBookmarklet.js
+var saveSpaces     = 0;
+var removeNewLines = true;
+var saveComments   = 0;
+function scriptToBookmarklet() {
+	//readOptions();
+	var text = getText();
+
+	var excludes = {};
+	var rnd = function() {
+		return "<#" + Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2) + "#>";
+	};
+
+	text = text
+		// Remove "strings" and 'strings'
+		.replace(
+			/"(\\.|[^"\\\n\r])*"|'(\\.|[^'\\\n\r])*'/g,
+			function(s) {
+				var r = rnd();
+				excludes[r] = s;
+				return r;
+			}
+		)
+		// Try remove regular expressions like /x*/ and /\/*x/
+		// We search for invalid divisions:
+		// x = /./;             -> =
+		// if(/a/.test(b))      -> (
+		// a = [/a/, /b/]       -> [ ,
+		// x = a && /b/.test(c) -> & |
+		// x = a ? /b/ : /c/    -> ? :
+		// x = !/a/.test(b)     -> !
+		.replace(
+			/([=(\[,&|?:!]\s*((\/\/[^\n\r]*[\n\r]+|\/\*[\s\S]*?\*\/)\s*)*)\/([^*+?\\\/\n\r]|\\[^\n\r])(\\\/|[^\/\n\r])*\//g,
+			// special chars   line comments       block comments         regexp begin                         regexp end
+			function(s, prefix) {
+				var r = rnd();
+				excludes[r] = s.substr(prefix.length);
+				return prefix + r;
+			}
+		);
+
+
+	if(!(saveComments & 1))
+		text = text.replace(/\/\*[\s\S]*?\*\//g, ""); // /*comment*/
+	if(!(saveComments & 2))
+		text = text.replace(/(^|[\t ]+|([^:\\]))\/\/[^\n\r]*$/mg, "$2"); // //comment
+	else
+		text = text
+			.replace(/(^|[\t ]+|[^:\\])\/\/([ \t]?)[ \t]*([^\n\r]*)$/mg, "$1/*$2$3*/") // //comment -> /*comment*/
+			.replace(/\*\/[\n\r]+\/\*/g, " ");
+
+	text = text
+		.replace(/^\s*javascript:\s*/i, "")
+		.replace(/^\s+|\s+$/g, "");
+
+	var newLinesReplacement = removeNewLines ? "" : " ";
+
+	if(saveSpaces == 0)
+		text = text.replace(/\s+/g, " ");
+	else if(saveSpaces == 1)
+		text = text
+			.replace(/^[ \t]+|[ \t]+$/mg, "")
+			.replace(/[\n\r]+/g, newLinesReplacement);
+	else if(saveSpaces >= 2)
+		text = text.replace(/[\n\r]+/g, newLinesReplacement);
+
+
+	text = text.replace(/<#[a-z0-9]{2,}#>/g, function(s) {
+		if(s in excludes)
+			return excludes[s];
+		return s;
+	});
+
+	if(
+		!/^\(function\s*\(\)\s*\{.+\}\)\s*\(\);?$/.test(text) // (function(){ ... })();
+		&& !/^alert\s*\(([^()]*\([^()]+\))*[^()]*\);?$/.test(text) // alert( ... );
+		&& !/\Walert\s*\(\s*[^)]+\s*\);?$/.test(text) // ... alert(x);
+	)
+		text += " void(0);";
+
+	text = "javascript: " + text;
+
+	/*
+	text = AkelPad.InputBox(
+		hMainWnd,
+		WScript.ScriptName,
+		_localize("Code of bookmarklet (OK - copy):"),
+		text
+	);
+	if(text)
+		AkelPad.SetClipboardText(text);
+	*/
+	var out = document.getElementById("out");
+	out.value = text;
+	out.focus();
+	out.select();
+}
+function getText() {
+	return document.getElementById("code").value;
+}
+function clearFields() {
+	var code = document.getElementById("code");
+	code.value = "";
+	code.focus();
+	document.getElementById("out").value = "";
+}
+</script>
+<body>
+	<textarea id="code" placeholder="// Some stript to make bookmerklet from it"
+		onkeydown="if(event.keyCode == 13 && event.ctrlKey) scriptToBookmarklet();"></textarea>
+	<button onclick="scriptToBookmarklet();" title="Ctrl+Enter in code area">Make bookmarklet</button>
+	<button onclick="clearFields();">Clear</button>
+	<input id="out" type="text" onclick="this.select();" />
+	<a id="source" href="https://github.com/Infocatcher/Bookmarklets">Source code</a>
+</body>
