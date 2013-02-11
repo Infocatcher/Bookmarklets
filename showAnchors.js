@@ -13,13 +13,15 @@
 (function() {
 var window = top;
 var document = top.document;
+var realWindow = window;
 if(window.content && content != window) try { // Custom Buttons extension?
 	if(
 		content instanceof Components.interfaces.nsIDOMWindow
 		&& !(content instanceof Components.interfaces.nsIDOMChromeWindow)
 	) {
-		window = content.wrappedJSObject || content; // Only for better compatibility with bookmarklet
+		window = content;
 		document = window.document;
+		realWindow = window.wrappedJSObject || window;
 	}
 }
 catch(e) {
@@ -49,13 +51,13 @@ function _localize(s) {
 	return _localize(s);
 }
 
-var remove = anchorClass in window;
+var remove = anchorClass in realWindow;
 if(remove) {
-	var oldClickHandler = window[anchorClass];
-	delete window[anchorClass];
+	var oldClickHandler = realWindow[anchorClass];
+	delete realWindow[anchorClass];
 }
 else {
-	window[anchorClass] = clickHandler;
+	realWindow[anchorClass] = clickHandler;
 	var showOver = confirm(_localize("Show over?"));
 }
 
