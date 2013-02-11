@@ -36,18 +36,18 @@ if(window.content && content != window) try { // Custom Buttons extension?
 			Components.classes["@mozilla.org/widget/clipboardhelper;1"]
 				.getService(Components.interfaces.nsIClipboardHelper)
 				.copyString(s, document);
-			var s = node.style;
-			var tr = "transition" in s && "transition"
-				|| "MozTransition" in s && "MozTransition";
+			var stl = node.style;
+			var tr = "transition" in stl && "transition"
+				|| "MozTransition" in stl && "MozTransition";
 			if(tr)
-				s[tr] = "opacity 150ms ease-in-out";
+				stl[tr] = "opacity 150ms ease-in-out";
 			var dur = 300;
 			setTimeout(function() {
-				s.opacity = "0.2";
+				stl.opacity = "0.2";
 				setTimeout(function() {
-					s.opacity = "";
+					stl.opacity = "";
 					if(tr) setTimeout(function() {
-						s[tr] = "";
+						stl[tr] = "";
 					}, dur/2);
 				}, dur/2);
 			}, 0);
