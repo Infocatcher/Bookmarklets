@@ -14,6 +14,7 @@
 var window = top;
 var document = top.document;
 var realWindow = window;
+var confirm = window.confirm;
 if(window.content && content != window) try { // Custom Buttons extension?
 	if(
 		content instanceof Components.interfaces.nsIDOMWindow
@@ -22,6 +23,11 @@ if(window.content && content != window) try { // Custom Buttons extension?
 		window = content;
 		document = window.document;
 		realWindow = window.wrappedJSObject || window;
+		confirm = function(msg) {
+			return Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+				.getService(Components.interfaces.nsIPromptService)
+				.confirm(top, "Show Anchors", msg);
+		};
 	}
 }
 catch(e) {
