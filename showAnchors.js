@@ -9,7 +9,7 @@
 // https://github.com/Infocatcher/Custom_Buttons/tree/master/Show_Anchors
 
 // (c) Infocatcher 2009, 2011-2013
-// version 0.2.0pre6 - 2013-02-05
+// version 0.2.0pre7 - 2013-02-11
 
 (function() {
 var window = top;
