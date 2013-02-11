@@ -5,7 +5,8 @@
 // Replace "var showOver = confirm(_localize("Show over?"));"
 // with "var showOver = true;" to suppress prompt.
 // Also you can use Custom Buttons https://addons.mozilla.org/addon/custom-buttons/
-// to launch the code (place it into "code" section)
+// to launch the code (place it into "code" section), see
+// https://github.com/Infocatcher/Custom_Buttons/tree/master/Show_Anchors
 
 // (c) Infocatcher 2009, 2011-2013
 // version 0.2.0pre6 - 2013-02-05
@@ -15,6 +16,9 @@ var window = top;
 var document = top.document;
 var realWindow = window;
 var confirm = window.confirm;
+function copy(msg, s, node) {
+	prompt(msg, s);
+}
 if(window.content && content != window) try { // Custom Buttons extension?
 	if(
 		content instanceof Components.interfaces.nsIDOMWindow
@@ -27,6 +31,26 @@ if(window.content && content != window) try { // Custom Buttons extension?
 			return Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 				.getService(Components.interfaces.nsIPromptService)
 				.confirm(top, "Show Anchors", msg);
+		};
+		copy = function(msg, s, node) {
+			Components.classes["@mozilla.org/widget/clipboardhelper;1"]
+				.getService(Components.interfaces.nsIClipboardHelper)
+				.copyString(s, document);
+			var s = node.style;
+			var tr = "transition" in s && "transition"
+				|| "MozTransition" in s && "MozTransition";
+			if(tr)
+				s[tr] = "opacity 150ms ease-in-out";
+			var dur = 300;
+			setTimeout(function() {
+				s.opacity = "0.2";
+				setTimeout(function() {
+					s.opacity = "";
+					if(tr) setTimeout(function() {
+						s[tr] = "";
+					}, dur/2);
+				}, dur/2);
+			}, 0);
 		};
 	}
 }
@@ -203,7 +227,8 @@ function clickHandler(e) {
 	if(trg.className == anchorLinkClass) {
 		e.preventDefault();
 		e.stopPropagation();
-		prompt(_localize("Link:"), trg.href);
+		//prompt(_localize("Link:"), trg.href);
+		copy(_localize("Link:"), trg.href, trg);
 	}
 	else if(trg.className == anchorCloseClass) {
 		e.preventDefault();
