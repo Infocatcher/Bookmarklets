@@ -1,5 +1,5 @@
-// (c) Infocatcher 2009-2011
-// version 0.1.3.3 - 2011-07-19
+// (c) Infocatcher 2009-2011, 2013
+// version 0.1.3.4 - 2013-11-28
 
 // getSel module:
 // (c) Infocatcher 2009, 2011
@@ -54,8 +54,10 @@ function getSel(trim, win, sels) {
 var sel = getSel(true).join("\n");
 
 var loc = location.href;
-if(loc == "about:blank")
+if(loc == "about:blank") {
 	location.href = "https://translate.google.ru/" + "#auto/" + tl + "/";
+	window.focus();
+}
 else
 	window.open(
 		sel
