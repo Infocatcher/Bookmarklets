@@ -55,11 +55,11 @@ var sel = getSel(true).join("\n");
 
 var loc = location.href;
 if(loc == "about:blank")
-	location.href = "http://translate.google.ru/" + "#auto|" + tl + "|";
+	location.href = "https://translate.google.ru/" + "#auto/" + tl + "/";
 else
 	window.open(
 		sel
-			? "http://translate.google.ru/" + "#auto|" + tl + "|" + encodeURIComponent(sel)
-			: "http://translate.google.ru/translate?sl=auto&tl=" + tl + "&ie=" + document.characterSet + "&u=" + encodeURIComponent(loc)
+			? "https://translate.google.ru/" + "#auto/" + tl + "/" + encodeURIComponent(sel)
+			: "https://translate.google.ru/translate?sl=auto&tl=" + tl + "&ie=" + document.characterSet + "&u=" + encodeURIComponent(loc)
 	);
 })();
