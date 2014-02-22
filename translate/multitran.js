@@ -1,53 +1,65 @@
-// (c) Infocatcher 2011
-// version 0.1.0 - 2011-07-19
-
-// getSel module:
-// (c) Infocatcher 2009, 2011
-// version 0.2.1 - 2011-07-19
+// (c) Infocatcher 2011, 2014
+// version 0.1.0.1 - 2014-02-23
 
 (function() {
 
-function getSelWnd(trim, win, sels) {
-	if(!win)  win = window;
-	if(!sels) sels = [];
-	try {
-		var doc = win.document;
-		var sel = doc.selection && doc.selection.createRange && doc.selection.createRange().text
-			|| win.getSelection && win.getSelection()
-			|| doc.getSelection && doc.getSelection();
-		if(!sel)
-			throw "Bad selection";
-	}
-	catch(e) { // Permission denied to get property Window.document
+// getSel module
+// (c) Infocatcher 2009, 2011, 2013-2014
+// version 0.3.0 - 2014-02-23
+
+function getSel(trim, includeFrames, win) {
+	getSel = function(trim, win) {
+		var sels = [];
+		if(includeFrames == false)
+			getWinSel(win || window, sels, trim);
+		else
+			parseWin(win || window, sels, trim);
 		return sels;
+	};
+	return getSel(trim, win);
+	function parseWin(win, out, trim) {
+		var sel = getWinSel(win, out, trim);
+		sel && out.push(sel);
+		for(var i = 0, l = win.frames.length; i < l; ++i)
+			parseWin(win.frames[i], out, trim);
 	}
-	var _sel;
-	try { // Multiselection
-		var rngCnt = sel.rangeCount;
-		if(typeof rngCnt != "number")
-			throw "Bad range";
-		for(var i = 0; i < rngCnt; i++) {
-			_sel = sel.getRangeAt(i).toString();
+	function getWinSel(win, out, trim) {
+		try {
+			var doc = win.document;
+			var sel = doc.selection && doc.selection.createRange && doc.selection.createRange().text
+				|| win.getSelection && win.getSelection()
+				|| doc.getSelection && doc.getSelection();
+			if(!sel)
+				throw "Bad selection";
+			var selText = sel.toString();
 			if(trim)
-				_sel = _sel.replace(/^\s+|\s+$/g, "");
-			_sel && sels.push(_sel);
+				selText = selText.replace(/^\s+|\s+$/g, "");
 		}
+		catch(e) { // Permission denied to get property Window.document
+			return;
+		}
+		if(sel) try { // Multiselection
+			var rngCnt = sel.rangeCount;
+			if(typeof rngCnt != "number" || rngCnt <= 0)
+				throw "Bad range";
+			var sels = [];
+			for(var i = 0; i < rngCnt; ++i) {
+				var rngSel = sel.getRangeAt(i).toString();
+				if(trim)
+					rngSel = rngSel.replace(/^\s+|\s+$/g, "");
+				if(rngSel)
+					sels.push(rngSel);
+			}
+			// Strange things may happens in Firefox
+			if(!/[\n\r]/.test(selText) || /[\n\r]/.test(sels.join(""))) {
+				out.push.apply(out, sels);
+				return;
+			}
+		}
+		catch(e) {
+		}
+		out.push(selText);
 	}
-	catch(e) {
-		_sel = sel.toString();
-		if(trim)
-			_sel = _sel.replace(/^\s+|\s+$/g, "");
-		_sel && sels.push(_sel);
-	}
-	return sels;
-}
-function getSel(trim, win, sels) {
-	if(!win)  win = window;
-	if(!sels) sels = [];
-	getSelWnd(trim, win, sels);
-	for(var i = 0, len = win.frames.length; i < len; i++)
-		getSel(trim, win.frames[i], sels);
-	return sels;
 }
 
 if(location.href == "about:blank")
