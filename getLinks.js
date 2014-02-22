@@ -244,10 +244,13 @@ function filter(str) {
 	appendLinks(regexp); // Firefox copy hidden links =/
 }
 var _timeout = null;
-fltStr.onkeypress = function() {
+fltStr.onkeypress = function(e) {
 	var _this = this;
 	clearTimeout(_timeout);
-	_timeout = setTimeout(function() { filter(_this.value); }, 300);
+	if(e.keyCode == 27) // KeyEvent.DOM_VK_ESCAPE
+		_timeout = setTimeout(function() { _this.value = ""; filter(""); }, 0);
+	else
+		_timeout = setTimeout(function() { filter(_this.value); }, 300);
 };
 container.insertBefore(document.createTextNode("Фильтр (RegExp): "), _cnt);
 container.insertBefore(fltStr, _cnt);
