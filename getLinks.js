@@ -1,5 +1,5 @@
-﻿// (c) Infocatcher 2008
-// version 0.0.4.1 - 2008.10.15
+﻿// (c) Infocatcher 2008, 2014
+// version 0.0.4.2 - 2014-02-23
 (function() {
 
 if("__removeLinksList" in window) {
