@@ -7,6 +7,24 @@ if("__removeLinksList" in window) {
 	return;
 }
 
+function _localize(s) {
+	var _s = {
+		"Close":             { ru: "Закрыть" },
+		"Select all":        { ru: "Выделить всё" },
+		"Filter (RegExp): ": { ru: "Фильтр (RegExp): " },
+		"Links not found!":  { ru: "Ссылки не найдены!" },
+	};
+	var lng = "en";
+	if(navigator.language && /^\w+/.test(navigator.language))
+		lng = RegExp.lastMatch;
+	else if(/\s[а-я]{3,}\s/i.test(new Date().toLocaleString()))
+		lng = "ru";
+	_localize = function(s) {
+		return _s[s] && _s[s][lng] || s;
+	};
+	return _localize(s);
+}
+
 var containerClass = "__linkContainer";
 
 var allLinks = {};
@@ -74,7 +92,7 @@ if(linksCnt == 0) {
 }
 
 if(linksCnt == 0) {
-	alert("Ссылок нет!");
+	alert(_localize("Links not found!"));
 	return;
 }
 
@@ -183,7 +201,7 @@ window.__removeLinksList = function() {
 
 appendButton(
 	window.__removeLinksList,
-	"Закрыть"
+	_localize("Close")
 );
 
 function selectAll() {
@@ -195,7 +213,7 @@ function selectAll() {
 
 appendButton(
 	selectAll,
-	"Выделить всё"
+	_localize("Select all")
 );
 
 var linkContainer = document.createElement("div");
@@ -253,7 +271,7 @@ fltStr.onkeypress = function(e) {
 	else
 		_timeout = setTimeout(function() { filter(_this.value); }, 300);
 };
-container.insertBefore(document.createTextNode("Фильтр (RegExp): "), _cnt);
+container.insertBefore(document.createTextNode(_localize("Filter (RegExp): ")), _cnt);
 container.insertBefore(fltStr, _cnt);
 
 appendLinks();
