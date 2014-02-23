@@ -2,7 +2,7 @@
 // version 0.0.4.1 - 2008.10.15
 (function() {
 
-if(window.__removeLinksList) {
+if("__removeLinksList" in window) {
 	window.__removeLinksList();
 	return;
 }
@@ -23,12 +23,12 @@ function getLinks(doc, rng) {
 		doc = div;
 	}
 	var links = doc.getElementsByTagName("a"), a, h;
-	for(var i = 0, len = links.length; i < len; i++) {
+	for(var i = 0, len = links.length; i < len; ++i) {
 		a = links[i];
 		h = a.href;
 		if(h) {
 			allLinks[h] = a.textContent;
-			linksCnt++;
+			++linksCnt;
 		}
 	}
 }
@@ -42,7 +42,7 @@ function parseNodes(win) {
 			getLinks(win.document, null);
 			return;
 		}
-		for(var i = 0; i < rngCnt; i++)
+		for(var i = 0; i < rngCnt; ++i)
 			getLinks(win.document, sel.getRangeAt(i));
 	}
 	catch(e) {
@@ -52,7 +52,7 @@ function parseNodes(win) {
 
 function parseWin(win) {
 	parseNodes(win);
-	for(var i = 0, len = win.frames.length; i < len; i++)
+	for(var i = 0, len = win.frames.length; i < len; ++i)
 		parseWin(win.frames[i]);
 }
 parseWin(window);
@@ -64,7 +64,7 @@ function deselect(win) {
 	catch(e) {
 		err("deselect error:\n" + e);
 	}
-	for(var i = 0, len = win.frames.length; i < len; i++)
+	for(var i = 0, len = win.frames.length; i < len; ++i)
 		deselect(win.frames[i]);
 }
 
@@ -178,7 +178,7 @@ window.__removeLinksList = function() {
 	container.parentNode.removeChild(container);
 	if(_body)
 		_body.parentNode.removeChild(_body);
-	delete(window.__removeLinksList);
+	delete window.__removeLinksList;
 };
 
 appendButton(
@@ -206,11 +206,12 @@ linkContainer.setAttribute(
 linkContainer.className = containerClass;
 
 function appendLinks(regexp) {
-	while(linksContainer.hasChildNodes())
-		linksContainer.removeChild(linksContainer.lastChild);
+	//while(linksContainer.hasChildNodes())
+	//	linksContainer.removeChild(linksContainer.lastChild);
+	linksContainer.textContent = "";
 	var _regexp = !!regexp;
 	var a, cnt, num = 0;
-	for(var h in allLinks) {
+	for(var h in allLinks) if(allLinks.hasOwnProperty(h)) {
 		if(_regexp && !regexp.test(h))
 			continue;
 		a = document.createElement("a");
