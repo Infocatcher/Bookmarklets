@@ -1,5 +1,5 @@
-// (c) Infocatcher 2009-2011, 2013-2014
-// version 0.1.3.5 - 2014-02-23
+// (c) Infocatcher 2009-2011, 2013-2015
+// version 0.1.3.6 - 2015-10-02
 
 (function() {
 
@@ -65,7 +65,7 @@ function getSel(trim, includeFrames, win) {
 var sel = getSel(true).join("\n");
 
 var loc = location.href;
-if(loc == "about:blank") {
+if(/^(about|chrome|resource):/.test(loc)) {
 	location.href = "https://translate.google.ru/" + "#auto/" + tl + "/";
 	window.focus();
 }
