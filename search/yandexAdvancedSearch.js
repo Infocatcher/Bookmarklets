@@ -1,5 +1,5 @@
-﻿// (c) Infocatcher 2009, 2011-2012, 2014
-// version 0.2.3.1 - 2014-02-23
+﻿// (c) Infocatcher 2009, 2011-2012, 2014-2015
+// version 0.2.3.2 - 2015-10-02
 
 (function() {
 
@@ -84,7 +84,7 @@ var host = "";
 try { host = location.hostname; }
 catch(e) {}
 var domain = _localize("yandex.ru");
-if(loc == "about:blank" || loc == "about:newtab")
+if(/^(about|chrome|resource):/.test(loc))
 	location.href = "https://" + domain + "/advanced.html";
 else if(!host || /^(www\d*\.)?ya(ndex)?\.ru$/.test(host) || /^(about|chrome|resource):/.test(loc))
 	window.open("https://" + domain + "/advanced.html");
