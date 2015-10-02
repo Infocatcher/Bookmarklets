@@ -1,5 +1,5 @@
-// (c) Infocatcher 2011, 2014
-// version 0.1.0.1 - 2014-02-23
+// (c) Infocatcher 2011, 2014-2015
+// version 0.1.0.2 - 2015-10-02
 
 (function() {
 
@@ -62,7 +62,7 @@ function getSel(trim, includeFrames, win) {
 	}
 }
 
-if(location.href == "about:blank")
+if(/^(about|chrome|resource):/.test(location.href))
 	location.href = "http://multitran.ru/";
 else
 	window.open("http://multitran.ru/c/m.exe?s=" + encodeURIComponent(getSel(true).join(" ")));
