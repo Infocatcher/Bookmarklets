@@ -8,8 +8,8 @@
 // to launch the code (place it into "code" section), see
 // https://github.com/Infocatcher/Custom_Buttons/tree/master/Show_Anchors
 
-// (c) Infocatcher 2009, 2011-2013
-// version 0.2.0pre7 - 2013-02-11
+// (c) Infocatcher 2009, 2011-2013, 2017
+// version 0.2.0pre8 - 2017-09-20
 
 (function() {
 var window = top;
@@ -92,7 +92,7 @@ else {
 }
 
 // http://forums.informaction.com/viewtopic.php?f=10&t=10266&p=43618#p43618
-var setTimeout = window.setTimeout;
+var setTimeout = top.setTimeout; // Note: prefer setTimeout() from chrome window for Custom Buttons
 var isNoScript = String(setTimeout).indexOf("new Function") != -1;
 var isSync = false;
 if(isNoScript) {
