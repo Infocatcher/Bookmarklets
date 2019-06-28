@@ -27,6 +27,32 @@ function _localize(s) {
 
 var containerClass = "__linkContainer";
 
+var isNoScript = window.getComputedStyle(document.createElement("noscript"), null).display != "none";
+// Based on code from https://github.com/Infocatcher/Bookmarklets/blob/master/showAnchors.js
+var setTimeout = window.setTimeout.bind(window); // Used .bind() for Greasemonkey 4.7 (Firefox 64)
+if(isNoScript) {
+	if("postMessage" in window) {
+		setTimeout = function fakeTimeout(callback) {
+			var key = "getLinks#fakeTimeout#" + Math.random().toFixed(16).substr(2);
+			window.addEventListener("message", function onMessage(e) {
+				if(e.data !== key)
+					return;
+				var origin = e.origin;
+				if(!origin || location.href.substr(0, origin.length) !== origin)
+					return;
+				window.removeEventListener("message", onMessage, false);
+				callback();
+			}, false);
+			window.postMessage(key, location.href);
+		}
+	}
+	else {
+		setTimeout = function(callback) {
+			callback();
+		};
+	}
+}
+
 var allLinks = {};
 var linksCnt = 0;
 
