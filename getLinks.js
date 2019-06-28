@@ -261,15 +261,19 @@ function filter(str) {
 		return;
 	}
 	appendLinks(regexp); // Firefox copy hidden links =/
+	_lastSearch = new Date().getTime();
 }
-var _timeout = null;
+var _timeout = 0;
+var _lastSearch = 0;
 fltStr.onkeypress = function(e) {
 	var _this = this;
 	clearTimeout(_timeout);
 	if(e.keyCode == 27) // KeyEvent.DOM_VK_ESCAPE
 		_timeout = setTimeout(function() { _this.value = ""; filter(""); }, 0);
-	else
-		_timeout = setTimeout(function() { filter(_this.value); }, 300);
+	else {
+		var delay = Math.max(0, 150 + _lastSearch - new Date().getTime());
+		_timeout = setTimeout(function() { filter(_this.value); }, delay);
+	}
 };
 container.insertBefore(document.createTextNode(_localize("Filter (RegExp): ")), _cnt);
 container.insertBefore(fltStr, _cnt);
