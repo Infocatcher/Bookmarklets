@@ -274,8 +274,10 @@ var fltStr = document.createElement("input");
 fltStr.type = "text";
 fltStr.setAttribute(
 	"style",
-	"width: 200px !important;"
-	+ "background: white !important;\n"
+	"width: 200px !important; "
+	+ "background: white !important; "
+	+ "border: 1px solid #00a !important; "
+	+ "padding: 2px 4px !important; "
 );
 function filter(str) {
 	try {
