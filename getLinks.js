@@ -130,33 +130,30 @@ if(body.nodeName.toLowerCase() != "body") {
 	body = _body;
 }
 
-var head = document.getElementsByTagName("head")[0];
-var addedStl = null;
-if(head) {
-	addedStl = document.createElement("style");
-	addedStl.type = "text/css";
-	var linkStl = "color: #00b !important;\n"
-		+ "border: none !important;\n"
-		+ "outline: none !important;\n"
-		+ "margin: 0 !important;\n"
-		+ "padding: 0 !important;\n"
-		+ "background: none !important;\n"
-		+ "opacity: 1.0 !important;\n"
-		+ "position: static !important;\n"
-		+ "font: 13px \"Courier New\",monospace !important;\n";
-	addedStl.appendChild(document.createTextNode(
-		"div." + containerClass + " > a {\n"
-			+ linkStl
-			+ "text-decoration: none !important;\n"
-			+ "}\n"
-		+ "div." + containerClass + " > a:hover {\n"
-			+ linkStl
-			+ "text-decoration: underline !important;\n"
-			+ "}\n"
-		+ "object { visibility: hidden !important; }" // bugfix
-	));
-	head.appendChild(addedStl);
-}
+var head = document.getElementsByTagName("head")[0] || document.documentElement;
+var addedStl = document.createElement("style");
+addedStl.type = "text/css";
+var linkStl = "color: #00b !important;\n"
+	+ "border: none !important;\n"
+	+ "outline: none !important;\n"
+	+ "margin: 0 !important;\n"
+	+ "padding: 0 !important;\n"
+	+ "background: none !important;\n"
+	+ "opacity: 1.0 !important;\n"
+	+ "position: static !important;\n"
+	+ "font: 13px \"Courier New\",monospace !important;\n";
+addedStl.appendChild(document.createTextNode(
+	"div." + containerClass + " > a {\n"
+		+ linkStl
+		+ "text-decoration: none !important;\n"
+		+ "}\n"
+	+ "div." + containerClass + " > a:hover {\n"
+		+ linkStl
+		+ "text-decoration: underline !important;\n"
+		+ "}\n"
+	+ "object { visibility: hidden !important; }" // bugfix
+));
+head.appendChild(addedStl);
 
 var container = document.createElement("div");
 var cBorder = 20;
