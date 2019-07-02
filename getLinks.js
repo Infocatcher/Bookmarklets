@@ -122,15 +122,9 @@ if(linksCnt == 0) {
 	return;
 }
 
-var body = document.body;
-var _body;
-if(body.nodeName.toLowerCase() != "body") {
-	_body = document.createElement("body");
-	document.documentElement.appendChild(_body);
-	body = _body;
-}
-
+var body = document.body || document.documentElement;
 var head = document.getElementsByTagName("head")[0] || document.documentElement;
+
 var addedStl = document.createElement("style");
 addedStl.type = "text/css";
 var linkStl = "color: #00b !important;\n"
@@ -217,8 +211,6 @@ window.__removeLinksList = function() {
 	if(addedStl)
 		addedStl.parentNode.removeChild(addedStl);
 	container.parentNode.removeChild(container);
-	if(_body)
-		_body.parentNode.removeChild(_body);
 	delete window.__removeLinksList;
 };
 
