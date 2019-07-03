@@ -2,10 +2,11 @@
 // version 0.0.4.2 - 2014-02-23
 (function() {
 
-if("__removeLinksList" in window) {
-	window.__removeLinksList();
+var blockId = "__getLinksBlock";
+var containerClass = "__getLinksContainer";
+
+if(removeLinksList())
 	return;
-}
 
 function _localize(s) {
 	var _s = {
@@ -24,8 +25,6 @@ function _localize(s) {
 	};
 	return _localize(s);
 }
-
-var containerClass = "__linkContainer";
 
 var isNoScript = window.getComputedStyle(document.createElement("noscript"), null).display != "none";
 // Based on code from https://github.com/Infocatcher/Bookmarklets/blob/master/showAnchors.js
@@ -123,10 +122,9 @@ if(linksCnt == 0) {
 }
 
 var body = document.body || document.documentElement;
-var head = document.getElementsByTagName("head")[0] || document.documentElement;
 
-var addedStl = document.createElement("style");
-addedStl.type = "text/css";
+var stl  = document.createElement("style");
+stl.type = "text/css";
 var linkStl = "color: #00b !important;\n"
 	+ "border: none !important;\n"
 	+ "outline: none !important;\n"
@@ -136,7 +134,7 @@ var linkStl = "color: #00b !important;\n"
 	+ "opacity: 1.0 !important;\n"
 	+ "position: static !important;\n"
 	+ "font: 13px \"Courier New\",monospace !important;\n";
-addedStl.appendChild(document.createTextNode(
+stl.appendChild(document.createTextNode(
 	"div." + containerClass + " > a {\n"
 		+ linkStl
 		+ "text-decoration: none !important;\n"
@@ -147,9 +145,10 @@ addedStl.appendChild(document.createTextNode(
 		+ "}\n"
 	+ "object { visibility: hidden !important; }" // bugfix
 ));
-head.appendChild(addedStl);
 
 var container = document.createElement("div");
+container.id = blockId;
+container.appendChild(stl);
 var cBorder = 20;
 var mHeight = window.innerHeight - cBorder*2;
 var bHeight = 28;
@@ -207,15 +206,14 @@ function appendButton(fnc, lbl) {
 	container.insertBefore(btt, _cnt);
 }
 
-window.__removeLinksList = function() {
-	if(addedStl)
-		addedStl.parentNode.removeChild(addedStl);
-	container.parentNode.removeChild(container);
-	delete window.__removeLinksList;
-};
+function removeLinksList() {
+	var container = document.getElementById(blockId);
+	container && container.parentNode.removeChild(container);
+	return container;
+}
 
 appendButton(
-	window.__removeLinksList,
+	removeLinksList,
 	_localize("Close")
 );
 
