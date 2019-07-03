@@ -200,6 +200,8 @@ function appendButton(fnc, lbl) {
 		"style",
 		"margin: 0 4px 4px 0 !important; "
 		+ "height: " + (bHeight - 4) + "px !important; "
+		+ "min-height: 0 !important; "
+		+ "max-height: " + (bHeight - 4) + "px !important; "
 		+ "font-size: 13px !important; "
 	);
 	btt.appendChild(document.createTextNode(lbl));
