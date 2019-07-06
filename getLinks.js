@@ -135,9 +135,11 @@ var linkStl = "color: #00b !important;\n"
 	+ "position: static !important;\n"
 	+ "font: 13px \"Courier New\",monospace !important;\n";
 stl.appendChild(document.createTextNode(
-	"div." + containerClass + " > a {\n"
+	"#" + blockId + " *:not(style) { all: unset; }\n"
+	+ "div." + containerClass + " > a {\n"
 		+ linkStl
 		+ "text-decoration: none !important;\n"
+		+ "cursor: pointer !important;\n"
 		+ "}\n"
 	+ "div." + containerClass + " > a:hover {\n"
 		+ linkStl
@@ -199,10 +201,15 @@ function appendButton(fnc, lbl) {
 	btt.setAttribute(
 		"style",
 		"margin: 0 4px 4px 0 !important; "
-		+ "height: " + (bHeight - 4) + "px !important; "
+		+ "padding: 1px 6px !important; "
+		+ "height: " + (bHeight - 8) + "px !important; "
+		+ "max-height: " + (bHeight - 8) + "px !important; "
 		+ "min-height: 0 !important; "
-		+ "max-height: " + (bHeight - 4) + "px !important; "
 		+ "font-size: 13px !important; "
+		+ "background: #ddf !important; "
+		+ "border: 1px solid #00a !important; "
+		+ "-moz-user-select: none !important; "
+		+ "user-select: none !important; "
 	);
 	btt.appendChild(document.createTextNode(lbl));
 	container.insertBefore(btt, _cnt);
