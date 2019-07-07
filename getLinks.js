@@ -167,7 +167,7 @@ container.setAttribute(
 	+ "max-height: " + mHeight + "px !important; "
 	+ "background-color: #f8f8f8 !important; "
 	+ "border: 1px solid #00a !important; "
-	+ "padding: 2px 6px !important; "
+	+ "padding: 4px !important; "
 	+ "opacity: 0.9 !important; "
 	+ "display: block !important; "
 	+ "margin: 0 !important; "
@@ -273,7 +273,10 @@ fltStr.setAttribute(
 	"width: 200px !important; "
 	+ "background: white !important; "
 	+ "border: 1px solid #00a !important; "
-	+ "padding: 2px 4px !important; "
+	+ "padding: 1px 4px !important; "
+	+ "height: " + (bHeight - 8) + "px !important; "
+	+ "max-height: " + (bHeight - 8) + "px !important; "
+	+ "min-height: 0 !important; "
 );
 function filter(str) {
 	try {
