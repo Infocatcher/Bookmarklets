@@ -123,6 +123,31 @@ if(linksCnt == 0) {
 
 var body = document.body || document.documentElement;
 
+var container = document.createElement("div");
+container.id = blockId;
+var cBorder = 20;
+var cPadding = 4;
+var bHeight = 28;
+container.setAttribute(
+	"style",
+	"position: fixed !important; "
+	+ "z-index: 65535 !important; "
+	+ "text-align: left !important; "
+	+ "top: " + cBorder + "px !important; "
+	+ "left: " + cBorder + "px !important; "
+	+ "right: " + cBorder + "px !important; "
+	+ "overflow: auto !important; "
+	+ "max-height: " + (window.innerHeight - cBorder*2) + "px !important; "
+	+ "max-height: calc(100% - " + (cBorder*2 + cPadding*2) + "px) !important; "
+	+ "color: black !important; "
+	+ "background: #f8f8f8 !important; "
+	+ "border: 1px solid #00a !important; "
+	+ "padding: " + cPadding + "px !important; "
+	+ "opacity: 0.9 !important; "
+	+ "display: block !important; "
+	+ "outline: none !important; "
+);
+
 var stl  = document.createElement("style");
 stl.type = "text/css";
 var linkStl = "color: #00b !important;\n"
@@ -147,53 +172,30 @@ stl.appendChild(document.createTextNode(
 		+ "}\n"
 	+ "object { visibility: hidden !important; }" // bugfix
 ));
-
-var container = document.createElement("div");
-container.id = blockId;
 container.appendChild(stl);
-var cBorder = 20;
-var mHeight = window.innerHeight - cBorder*2;
-var bHeight = 28;
-container.setAttribute(
+
+var header = document.createElement("div");
+header.setAttribute(
 	"style",
-	"position: fixed !important; "
-	+ "color: black !important; "
-	+ "background-color: white !important; "
-	+ "z-index: 65535 !important; "
-	+ "text-align: left !important; "
+	"display: block !important; "
+	+ "position: fixed !important; "
 	+ "top: " + cBorder + "px !important; "
 	+ "left: " + cBorder + "px !important; "
-	+ "right: " + cBorder + "px !important; "
-	+ "max-height: " + mHeight + "px !important; "
-	+ "background-color: #f8f8f8 !important; "
-	+ "border: 1px solid #00a !important; "
-	+ "padding: 4px !important; "
-	+ "opacity: 0.9 !important; "
-	+ "display: block !important; "
-	+ "margin: 0 !important; "
-	+ "outline: none !important; "
+	+ "height: " + bHeight + "px !important; "
+	+ "padding: 4px !important;"
+	+ "background: #f8f8f8 !important; "
+	+ "border-top: 1px solid #00a !important; "
+	+ "border-left: 1px solid #00a !important; "
 );
-
-var _cnt = document.createElement("div");
-_cnt.setAttribute(
-	"style",
-	"overflow: auto !important; "
-	+ "max-height: " + (mHeight - bHeight) + "px !important; "
-	+ "display: block !important; "
-	+ "margin: 0 !important; "
-	+ "padding: 0 !important; "
-	+ "border: none !important; "
-	+ "outline: none !important; "
-	+ "opacity: 1.0 !important; "
-);
-container.appendChild(_cnt);
+container.appendChild(header);
 
 var linksContainer = document.createElement("div");
 linksContainer.setAttribute(
 	"style",
 	"display: block !important; "
+	+ "margin: " + bHeight + "px 0 0 !important; "
 );
-_cnt.appendChild(linksContainer);
+container.appendChild(linksContainer);
 
 function appendButton(fnc, lbl) {
 	var btt = document.createElement("button");
@@ -212,7 +214,7 @@ function appendButton(fnc, lbl) {
 		+ "user-select: none !important; "
 	);
 	btt.appendChild(document.createTextNode(lbl));
-	container.insertBefore(btt, _cnt);
+	header.appendChild(btt);
 }
 
 function removeLinksList() {
@@ -302,8 +304,8 @@ fltStr.onkeypress = function(e) {
 		_timeout = setTimeout(function() { filter(_this.value); }, delay);
 	}
 };
-container.insertBefore(document.createTextNode(_localize("Filter (RegExp): ")), _cnt);
-container.insertBefore(fltStr, _cnt);
+header.appendChild(document.createTextNode(_localize("Filter (RegExp): ")));
+header.appendChild(fltStr);
 
 appendLinks();
 
