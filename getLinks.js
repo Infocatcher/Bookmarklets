@@ -127,7 +127,7 @@ var container = document.createElement("div");
 container.id = blockId;
 var cBorder = 20;
 var cPadding = 4;
-var bHeight = 28;
+var btnHeight = 22;
 container.setAttribute(
 	"style",
 	"position: fixed !important; "
@@ -181,11 +181,9 @@ header.setAttribute(
 	+ "position: fixed !important; "
 	+ "top: " + cBorder + "px !important; "
 	+ "left: " + cBorder + "px !important; "
-	+ "height: " + bHeight + "px !important; "
 	+ "padding: 4px !important;"
 	+ "background: #f8f8f8 !important; "
-	+ "border-top: 1px solid #00a !important; "
-	+ "border-left: 1px solid #00a !important; "
+	+ "border: 1px solid #00a !important; "
 );
 container.appendChild(header);
 
@@ -193,7 +191,7 @@ var linksContainer = document.createElement("div");
 linksContainer.setAttribute(
 	"style",
 	"display: block !important; "
-	+ "margin: " + bHeight + "px 0 0 !important; "
+	+ "margin: " + (btnHeight + 12) + "px 0 0 !important; "
 );
 container.appendChild(linksContainer);
 
@@ -202,10 +200,10 @@ function appendButton(fnc, lbl) {
 	btt.onclick = fnc;
 	btt.setAttribute(
 		"style",
-		"margin: 0 4px 4px 0 !important; "
+		"margin: 0 4px 0 0 !important; "
 		+ "padding: 1px 6px !important; "
-		+ "height: " + (bHeight - 8) + "px !important; "
-		+ "max-height: " + (bHeight - 8) + "px !important; "
+		+ "height: " + btnHeight + "px !important; "
+		+ "max-height: " + btnHeight + "px !important; "
 		+ "min-height: 0 !important; "
 		+ "font-size: 13px !important; "
 		+ "background: #ddf !important; "
@@ -276,8 +274,8 @@ fltStr.setAttribute(
 	+ "background: white !important; "
 	+ "border: 1px solid #00a !important; "
 	+ "padding: 1px 4px !important; "
-	+ "height: " + (bHeight - 8) + "px !important; "
-	+ "max-height: " + (bHeight - 8) + "px !important; "
+	+ "height: " + btnHeight + "px !important; "
+	+ "max-height: " + btnHeight + "px !important; "
 	+ "min-height: 0 !important; "
 );
 function filter(str) {
