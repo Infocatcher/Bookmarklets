@@ -126,7 +126,6 @@ var body = document.body || document.documentElement;
 var container = document.createElement("div");
 container.id = blockId;
 var cBorder = 20;
-var cPadding = 4;
 var btnHeight = 22;
 container.setAttribute(
 	"style",
@@ -138,11 +137,10 @@ container.setAttribute(
 	+ "right: " + cBorder + "px !important; "
 	+ "overflow: auto !important; "
 	+ "max-height: " + (window.innerHeight - cBorder*2) + "px !important; "
-	+ "max-height: calc(100% - " + (cBorder*2 + cPadding*2) + "px) !important; "
+	+ "max-height: calc(100% - " + (cBorder*2) + "px) !important; "
 	+ "color: black !important; "
 	+ "background: #f8f8f8 !important; "
 	+ "border: 1px solid #00a !important; "
-	+ "padding: " + cPadding + "px !important; "
 	+ "opacity: 0.9 !important; "
 	+ "display: block !important; "
 	+ "outline: none !important; "
@@ -191,7 +189,7 @@ var linksContainer = document.createElement("div");
 linksContainer.setAttribute(
 	"style",
 	"display: block !important; "
-	+ "margin: " + (btnHeight + 12) + "px 0 0 !important; "
+	+ "margin: " + (btnHeight + 14) + "px 0 0 !important; "
 );
 container.appendChild(linksContainer);
 
@@ -241,13 +239,12 @@ appendButton(
 var linkContainer = document.createElement("div");
 linkContainer.setAttribute(
 	"style",
-	"display: block !important;"
+	"display: block !important; "
+	+ "padding: 0 4px !important; "
 );
 linkContainer.className = containerClass;
 
 function appendLinks(regexp) {
-	//while(linksContainer.hasChildNodes())
-	//	linksContainer.removeChild(linksContainer.lastChild);
 	linksContainer.textContent = "";
 	var _regexp = !!regexp;
 	var a, cnt, num = 0;
@@ -256,7 +253,7 @@ function appendLinks(regexp) {
 			continue;
 		a = document.createElement("a");
 		cnt = linkContainer.cloneNode(false);
-		if(num++ % 2)
+		if(++num % 2)
 			cnt.style.backgroundColor = "#e9e9e9";
 		a.href = h;
 		a.appendChild(document.createTextNode(h));
