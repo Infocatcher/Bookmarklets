@@ -245,22 +245,24 @@ linkContainer.setAttribute(
 linkContainer.className = containerClass;
 
 function appendLinks(regexp) {
-	linksContainer.textContent = "";
-	var _regexp = !!regexp;
-	var a, cnt, num = 0;
+	var df = document.createDocumentFragment();
+	var hasRegExp = !!regexp;
+	var num = 0;
 	for(var h in allLinks) if(allLinks.hasOwnProperty(h)) {
-		if(_regexp && !regexp.test(h))
+		if(hasRegExp && !regexp.test(h))
 			continue;
-		a = document.createElement("a");
-		cnt = linkContainer.cloneNode(false);
+		var a = document.createElement("a");
+		var cnt = linkContainer.cloneNode(false);
 		if(++num % 2)
 			cnt.style.backgroundColor = "#e9e9e9";
 		a.href = h;
 		a.appendChild(document.createTextNode(h));
 		a.title = allLinks[h];
 		cnt.appendChild(a);
-		linksContainer.appendChild(cnt);
+		df.appendChild(cnt);
 	}
+	linksContainer.textContent = "";
+	linksContainer.appendChild(df);
 }
 
 var fltStr = document.createElement("input");
