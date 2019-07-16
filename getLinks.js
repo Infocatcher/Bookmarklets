@@ -244,12 +244,12 @@ linkContainer.setAttribute(
 );
 linkContainer.className = containerClass;
 
-function appendLinks(regexp) {
+function appendLinks(regExp) {
 	var df = document.createDocumentFragment();
-	var hasRegExp = !!regexp;
+	var hasRegExp = !!regExp;
 	var num = 0;
 	for(var h in allLinks) if(allLinks.hasOwnProperty(h)) {
-		if(hasRegExp && !regexp.test(h))
+		if(hasRegExp && !regExp.test(h))
 			continue;
 		var a = document.createElement("a");
 		var cnt = linkContainer.cloneNode(false);
@@ -278,15 +278,15 @@ fltStr.setAttribute(
 	+ "min-height: 0 !important; "
 );
 function filter(str) {
-	try {
-		var regexp = new RegExp(str);
-		fltStr.style.setProperty("background", "white", "important");
+	if(str) try {
+		var regExp = new RegExp(str);
 	}
 	catch(e) {
 		fltStr.style.setProperty("background", "#fee", "important");
 		return;
 	}
-	appendLinks(regexp); // Firefox copy hidden links =/
+	fltStr.style.setProperty("background", "white", "important");
+	appendLinks(str && regExp); // Firefox will copy hidden links =/
 	_lastSearch = new Date().getTime();
 }
 var _timeout = 0;
