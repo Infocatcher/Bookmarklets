@@ -277,15 +277,22 @@ fltStr.setAttribute(
 	+ "max-height: " + btnHeight + "px !important; "
 	+ "min-height: 0 !important; "
 );
+fltStr.__regExpError = false;
 function filter(str) {
 	if(str) try {
 		var regExp = new RegExp(str);
 	}
 	catch(e) {
-		fltStr.style.setProperty("background", "#fee", "important");
+		if(!fltStr.__regExpError) {
+			fltStr.__regExpError = true;
+			fltStr.style.setProperty("background", "#fee", "important");
+		}
 		return;
 	}
-	fltStr.style.setProperty("background", "white", "important");
+	if(fltStr.__regExpError) {
+		fltStr.__regExpError = false;
+		fltStr.style.setProperty("background", "white", "important");
+	}
 	appendLinks(str && regExp); // Firefox will copy hidden links =/
 	_lastSearch = new Date().getTime();
 }
