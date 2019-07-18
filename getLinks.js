@@ -266,7 +266,7 @@ function appendLinks(regExp) {
 }
 
 var fltStr = document.createElement("input");
-fltStr.type = "text";
+fltStr.type = "search";
 fltStr.setAttribute(
 	"style",
 	"width: 200px !important; "
