@@ -28,7 +28,9 @@ function _localize(s) {
 
 var isNoScript = window.getComputedStyle(document.createElement("noscript"), null).display != "none";
 // Based on code from https://github.com/Infocatcher/Bookmarklets/blob/master/showAnchors.js
-var setTimeout = window.setTimeout.bind(window); // Used .bind() for Greasemonkey 4.7 (Firefox 64)
+var setTimeout = "bind" in window.setTimeout
+	? window.setTimeout.bind(window) // For Greasemonkey 4.7 (Firefox 64)
+	: window.setTimeout;
 if(isNoScript) {
 	if("postMessage" in window) {
 		setTimeout = function fakeTimeout(callback) {
