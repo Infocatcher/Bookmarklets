@@ -300,7 +300,7 @@ function filter(str) {
 }
 var _timeout = 0;
 var _lastSearch = 0;
-fltStr.onkeypress = function(e) {
+fltStr.onkeydown = function(e) {
 	var _this = this;
 	clearTimeout(_timeout);
 	if(e.keyCode == 27) // KeyEvent.DOM_VK_ESCAPE
