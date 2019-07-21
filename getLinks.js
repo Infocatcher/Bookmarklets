@@ -160,13 +160,16 @@ var linkStl = "color: #00b !important;\n"
 	+ "position: static !important;\n"
 	+ "font: 13px \"Courier New\",monospace !important;\n";
 stl.appendChild(document.createTextNode(
-	"#" + blockId + " *:not(style) { all: unset; }\n"
-	+ "div." + containerClass + " > a {\n"
+	"#" + blockId + " *:not(style) {\n"
+		+ "all: unset;\n"
+		+ "font: 13px Verdana,sans-serif !important;\n"
+		+ "}\n"
+	+ "#" + blockId + " ." + containerClass + " > a {\n"
 		+ linkStl
 		+ "text-decoration: none !important;\n"
 		+ "cursor: pointer !important;\n"
 		+ "}\n"
-	+ "div." + containerClass + " > a:hover {\n"
+	+ "#" + blockId + " ." + containerClass + " > a:hover {\n"
 		+ linkStl
 		+ "text-decoration: underline !important;\n"
 		+ "}\n"
