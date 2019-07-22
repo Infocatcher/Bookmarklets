@@ -12,7 +12,8 @@ function _localize(s) {
 	var _s = {
 		"Close":             { ru: "Закрыть" },
 		"Select all":        { ru: "Выделить всё" },
-		"Filter (RegExp): ": { ru: "Фильтр (RegExp): " },
+		"Filter: ":          { ru: "Фильтр: " },
+		"regular expression: \\d+": { ru: "регулярное выражение: \\d+" },
 		"Links not found!":  { ru: "Ссылки не найдены!" },
 	};
 	var lng = "en";
@@ -272,9 +273,10 @@ function appendLinks(regExp) {
 
 var fltStr = document.createElement("input");
 fltStr.type = "search";
+fltStr.placeholder = _localize("regular expression: \\d+");
 fltStr.setAttribute(
 	"style",
-	"width: 200px !important; "
+	"width: 16em !important; "
 	+ "background: white !important; "
 	+ "border: 1px solid #00a !important; "
 	+ "padding: 1px 4px !important; "
@@ -313,7 +315,7 @@ fltStr.onkeydown = function(e) {
 		_timeout = setTimeout(function() { filter(_this.value); }, delay);
 	}
 };
-header.appendChild(document.createTextNode(_localize("Filter (RegExp): ")));
+header.appendChild(document.createTextNode(_localize("Filter: ")));
 header.appendChild(fltStr);
 
 appendLinks();
