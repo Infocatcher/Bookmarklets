@@ -49,9 +49,16 @@ if(isNoScript) {
 		}
 	}
 	else {
-		setTimeout = function(callback) {
-			callback();
-		};
+		setTimeout = function fakeTimeoutLegacy(callback) {
+			var et = "getLinks#fakeTimeout#" + Math.random().toFixed(16).substr(2);
+			window.addEventListener(et, function onEvent(e) {
+				window.removeEventListener(et, onEvent, false);
+				callback();
+			}, false);
+			var evt = document.createEvent("Event");
+			evt.initEvent(et, true, false);
+			window.dispatchEvent(evt);
+		}
 	}
 }
 
