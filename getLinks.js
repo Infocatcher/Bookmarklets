@@ -140,7 +140,7 @@ var btnHeight = 22;
 container.setAttribute(
 	"style",
 	"position: fixed !important; "
-	+ "z-index: 65535 !important; "
+	+ "z-index: 2147483647 !important; "
 	+ "text-align: left !important; "
 	+ "top: " + cBorder + "px !important; "
 	+ "left: " + cBorder + "px !important; "
