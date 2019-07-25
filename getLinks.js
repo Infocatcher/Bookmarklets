@@ -63,7 +63,7 @@ if(isNoScript) {
 }
 
 var allLinks = {};
-var linksCnt = 0;
+var hasLinks = false;
 
 function err(str) {
 	setTimeout(function() { throw new Error(str); }, 0);
@@ -81,7 +81,7 @@ function getLinks(doc, rng) {
 		h = a.href;
 		if(h) {
 			allLinks[h] = a.textContent;
-			++linksCnt;
+			hasLinks = true;
 		}
 	}
 }
@@ -121,12 +121,12 @@ function deselect(win) {
 		deselect(win.frames[i]);
 }
 
-if(linksCnt == 0) {
+if(!hasLinks) {
 	deselect(window);
 	parseWin(window);
 }
 
-if(linksCnt == 0) {
+if(!hasLinks) {
 	alert(_localize("Links not found!"));
 	return;
 }
