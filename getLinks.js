@@ -75,10 +75,10 @@ function getLinks(doc, rng) {
 		div.appendChild(rng.cloneContents());
 		doc = div;
 	}
-	var links = doc.getElementsByTagName("a"), a, h;
-	for(var i = 0, len = links.length; i < len; ++i) {
-		a = links[i];
-		h = a.href;
+	var links = doc.getElementsByTagName("a");
+	for(var i = 0, l = links.length; i < l; ++i) {
+		var a = links[i];
+		var h = a.href;
 		if(h) {
 			allLinks[h] = a.textContent;
 			hasLinks = true;
