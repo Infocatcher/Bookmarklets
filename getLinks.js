@@ -91,7 +91,7 @@ function parseNodes(win) {
 		var sel = null;
 		var sel = win.getSelection();
 		var rngCnt = sel.rangeCount;
-		if(rngCnt == 0) {
+		if(!rngCnt) {
 			getLinks(win.document, null);
 			return;
 		}
@@ -105,8 +105,9 @@ function parseNodes(win) {
 
 function parseWin(win) {
 	parseNodes(win);
-	for(var i = 0, len = win.frames.length; i < len; ++i)
-		parseWin(win.frames[i]);
+	var fs = win.frames;
+	for(var i = 0, l = fs.length; i < l; ++i)
+		parseWin(fs[i]);
 }
 parseWin(window);
 
@@ -117,8 +118,9 @@ function deselect(win) {
 	catch(e) {
 		err("deselect error:\n" + e);
 	}
-	for(var i = 0, len = win.frames.length; i < len; ++i)
-		deselect(win.frames[i]);
+	var fs = win.frames;
+	for(var i = 0, l = fs.length; i < l; ++i)
+		deselect(fs[i]);
 }
 
 if(!hasLinks) {
