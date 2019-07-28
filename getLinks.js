@@ -66,7 +66,10 @@ var allLinks = {};
 var hasLinks = false;
 
 function err(str) {
-	setTimeout(function() { throw new Error(str); }, 0);
+	if(window.console && console.error)
+		console.error(str);
+	else
+		setTimeout(function() { throw new Error(str); }, 0);
 }
 
 function getLinks(doc, rng) {
