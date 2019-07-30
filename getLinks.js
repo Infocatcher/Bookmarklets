@@ -102,7 +102,7 @@ function parseNodes(win) {
 			getLinks(win.document, sel.getRangeAt(i));
 	}
 	catch(e) {
-		err("parseNodes error:\n" + e);
+		err("parseNodes error for " + win.location + ":\n" + e);
 	}
 }
 
@@ -119,7 +119,7 @@ function deselect(win) {
 		win.getSelection().removeAllRanges();
 	}
 	catch(e) {
-		err("deselect error:\n" + e);
+		err("deselect error for " + win.location + ":\n" + e);
 	}
 	var fs = win.frames;
 	for(var i = 0, l = fs.length; i < l; ++i)
