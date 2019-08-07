@@ -10,11 +10,11 @@ if(removeLinksList())
 
 function _localize(s) {
 	var _s = {
-		"Close":             { ru: "Закрыть" },
-		"Select all":        { ru: "Выделить всё" },
-		"Filter: ":          { ru: "Фильтр: " },
+		"Close":                    { ru: "Закрыть" },
+		"Select all":               { ru: "Выделить всё" },
+		"Filter: ":                 { ru: "Фильтр: " },
 		"regular expression: \\d+": { ru: "регулярное выражение: \\d+" },
-		"Links not found!":  { ru: "Ссылки не найдены!" },
+		"Links not found!":         { ru: "Ссылки не найдены!" },
 	};
 	var lng = "en";
 	if(navigator.language && /^\w+/.test(navigator.language))
