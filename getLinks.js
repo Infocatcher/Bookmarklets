@@ -1,5 +1,5 @@
 ﻿// (c) Infocatcher 2008, 2014, 2019
-// version 0.0.5pre - 2019-07-14
+// version 0.0.5 - 2019-08-07
 (function() {
 
 var blockId = "__getLinksBlock";
