@@ -1,5 +1,5 @@
-// (c) Infocatcher 2011, 2014-2015
-// version 0.1.0.2 - 2015-10-02
+// (c) Infocatcher 2011-2020
+// version 0.1.0.3 - 2020-03-16
 
 (function() {
 
@@ -63,8 +63,8 @@ function getSel(trim, includeFrames, win) {
 }
 
 if(/^(about|chrome|resource):/.test(location.href))
-	location.href = "http://multitran.ru/";
+	location.href = "https://multitran.com/";
 else
-	window.open("http://multitran.ru/c/m.exe?s=" + encodeURIComponent(getSel(true).join(" ")));
+	window.open("https://multitran.com/c/m.exe?s=" + encodeURIComponent(getSel(true).join(" ")) + "&l1=2&l2=1");
 	
 })();
